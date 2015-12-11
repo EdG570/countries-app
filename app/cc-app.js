@@ -1,7 +1,7 @@
 (function() {
-var app = angular.module('ccApp', ['ngRoute', 'ngAnimate']);
+  angular.module('ccApp', ['ngRoute', 'ngAnimate'])
 
-    app.config(function($routeProvider) {
+    .config(function($routeProvider) {
         $routeProvider.when('/', {
           templateUrl: '/home.html',
           controller: 'HomeCtrl as home'
@@ -17,17 +17,36 @@ var app = angular.module('ccApp', ['ngRoute', 'ngAnimate']);
         .otherwise('/error', {
           template: '<h3>Error - Page Not Found</h3>'
         });
-    });
+    })
+
+    .factory('countryData', function($http) {
+        return function() {
+            
+            var request = {
+              username: 'cole570',
+              type: 'json'
+            };
+
+            return $http({
+                      url: 'http://api.geonames.org/countryInfo',
+                      method: 'GET',
+                      params: request
+                    });
+                    
+        };
+    })
     
-    app.controller('HomeCtrl', [function() {
-        
-    }]);
+    .controller('HomeCtrl', [ function() {
+       
+    }])
 
-    app.controller('CountryCtrl', [function() {
+    .controller('CountryCtrl', [ 'countryData', '$scope', function(countryData, $scope) {
+         countryData().then(function(results){
+          $scope.countries = results.data.geonames;
+        });
+    }])
 
-    }]);
-
-    app.controller('DetailCtrl', [function() {
+    .controller('DetailCtrl', [function() {
 
     }]);
 
