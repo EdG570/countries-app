@@ -25,31 +25,36 @@
         return {
           getCountries: function() {
             
-            var request = {
-              username: 'cole570',
-              type: 'json'
-            };
+              var request = {
+                username: 'cole570',
+                type: 'json'
+              };
 
-            $http({
-                url: 'http://api.geonames.org/countryInfo',
-                method: 'GET',
-                params: request
-            })
-            .then(function(results){
-                countryArray = results.data.geonames;
-                defer.resolve(countryArray);
-            });
+              $http({
+                  url: 'http://api.geonames.org/countryInfo',
+                  method: 'GET',
+                  params: request
+              })
+              .then(function(results){
+                  countryArray = results.data.geonames;
+                  defer.resolve(countryArray);
+              });
 
-            console.log(defer.promise);
-            
-            return defer.promise; 
+              console.log(defer.promise);
+              
+              return defer.promise; 
 
-          },
+            },
 
-          search: function() {
-            
-          }
-         }; 
+              search: function(arr, code) {
+                for(var i = 0; i < arr.length; i++) {
+                  if(arr[i].countryCode === code) {
+                    return arr[i];
+                  }
+                }
+                
+              }
+        }; 
     })
 
     
@@ -72,8 +77,15 @@
     }])
 
     .controller('DetailCtrl', [ 'countryData', '$scope', '$routeParams', function(countryData, $scope, $routeParams) {
+        
         $scope.countryCode = $routeParams.country;
         
+        countryData.getCountries().then(function(data) {
+            $scope.countries = data;
+            $scope.detailsInfo = countryData.search();
+            $scope.detailsInfo(data, $scope.countryCode);
+            console.log($scope.detailsInfo);
+         });
 
     }]);
 
