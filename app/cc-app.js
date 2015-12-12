@@ -10,7 +10,7 @@
           templateUrl: '/countries-list.html',
           controller: 'CountryCtrl as country'
         })
-        .when('/countries/:country/capital', {
+        .when('/countries/:country', {
           templateUrl: '/country-detail.html',
           controller: 'DetailCtrl as detail'
         })
@@ -19,34 +19,61 @@
         });
     })
 
-    .factory('countryData', function($http) {
-        return function() {
+    .factory('countryData', function($http, $q) {
+        var countryArray = [];
+        var defer = $q.defer();
+        return {
+          getCountries: function() {
             
             var request = {
               username: 'cole570',
               type: 'json'
             };
 
-            return $http({
-                      url: 'http://api.geonames.org/countryInfo',
-                      method: 'GET',
-                      params: request
-                    });
-                    
-        };
+            $http({
+                url: 'http://api.geonames.org/countryInfo',
+                method: 'GET',
+                params: request
+            })
+            .then(function(results){
+                countryArray = results.data.geonames;
+                defer.resolve(countryArray);
+            });
+
+            console.log(defer.promise);
+            
+            return defer.promise; 
+
+          },
+
+          search: function() {
+            
+          }
+         }; 
     })
+
+    
     
     .controller('HomeCtrl', [ function() {
        
     }])
 
-    .controller('CountryCtrl', [ 'countryData', '$scope', function(countryData, $scope) {
-         countryData().then(function(results){
-          $scope.countries = results.data.geonames;
-        });
+    .controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
+         countryData.getCountries().then(function(data) {
+            $scope.countries = data;
+            console.log(data);
+         });
+
+         $scope.getDetails = function(code) {
+            $location.path('/countries/' + code);
+         };
+
+
     }])
 
-    .controller('DetailCtrl', [function() {
+    .controller('DetailCtrl', [ 'countryData', '$scope', '$routeParams', function(countryData, $scope, $routeParams) {
+        $scope.countryCode = $routeParams.country;
+        
 
     }]);
 
