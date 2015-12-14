@@ -1,11 +1,13 @@
 .container {
-  width: 1140px;
+  width: 960px;
   margin: 0 auto;
-  padding: 3em 0 5em 0;
+  padding: 2em 0 5em 0;
 }
 
 h1 {
   text-align: center;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
 
 a {
@@ -16,7 +18,24 @@ a {
   text-align: center;
 }
 
+#content-box {
+  background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(img/background.jpg);
+  background: -o-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(img/background.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(img/background.jpg);
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: none;
+}
 
+#header {
+  background-color: #222;
+  padding: 1.3em 0;
+}
+
+#header-title {
+  margin: 0;
+  color: #fff;
+}
 
 /*----------------HOME--------------------*/
 
@@ -24,11 +43,13 @@ a {
   font-weight: 300;
   line-height: 1.4;
   letter-spacing: 1px;
+  color: #fff;
 }
 
 #home-info {
   width: 30em;
   margin: 0 auto;
+  padding: 5em 0 22em 0;
 }
 
 .browse-btn {
@@ -37,6 +58,10 @@ a {
   width: 8em;
   margin: 0 auto;
   margin-top: 2em;
+}
+
+#browse-btn {
+  margin-top: 1em;
 }
 
 /*-----------------COUNTRIES LIST PAGE--------------------*/
@@ -51,6 +76,10 @@ table {
 
 tr:nth-child(even) {
   background-color: #ccc;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
 }
 
 .country-info {
@@ -74,4 +103,65 @@ td {
   display: block;
   margin: 0 auto;
   margin-top: 2em;
+}
+
+/*-----------COUNTRY DETAILS PAGE------------*/
+
+#country-detail-box {
+  width: 34em;
+  margin: 0 auto;
+  margin-top: 2em;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 1em;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+#neighbors-list > h3 {
+  display: inline;
+}
+
+.inline-btn {
+  display: inline-block !important;
+  margin: 0 auto;
+  color: #fff;
+  font-weight: 300;
+}
+
+#home-btn {
+  margin-right: 1em;
+}
+
+#flag-img,
+#country-img {
+  width: 15em;
+}
+
+#country-img {
+  margin-right: 3em;
+  max-height: 10em;
+}
+
+#img-box {
+  margin-top: 2em;
+}
+
+#btn-box {
+  width: 19em;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.detail-txt {
+  font-weight: 300;
+  color: #333;
+}
+
+#country-detail-box h3 {
+  font-weight: 500;
+  color: #740D1A;
+}
+
+.neighbors {
+  cursor: pointer;
 }
