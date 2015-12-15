@@ -114,7 +114,7 @@ td {
   border: 1px solid #333;
   border-radius: 5px;
   padding: 1em;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 #neighbors-list > h3 {

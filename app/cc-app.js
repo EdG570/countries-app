@@ -1,6 +1,7 @@
 (function() {
   angular.module('ccApp', ['ngRoute', 'ngAnimate'])
 
+    //defines routes and assigns controller for each route
     .config(function($routeProvider) {
         $routeProvider.when('/', {
           templateUrl: '/home.html',
@@ -24,6 +25,7 @@
         var countryArray = [];
         var defer = $q.defer();
 
+        //http request for countries data
         return {
           getCountries: function() {
             
@@ -46,6 +48,7 @@
 
           },
           
+          //searches country array for matching country code then returns the selected country
           search: function(code) {
                var i = 0;
 
@@ -68,6 +71,7 @@
           var neighbors = [];
           var d = $q.defer();
 
+        //http request for neighboring countries
         return {
 
           getNeighbors: function(code) {
@@ -88,7 +92,7 @@
                   d.resolve(neighbors); 
               });
               
-            return d.promise;  
+              return d.promise;  
 
           }
         };
@@ -99,6 +103,7 @@
         var capObj = {};
         var d = $q.defer();
 
+        //http request for capital data
         return {
           
           getCapital: function(capital) {
@@ -134,11 +139,14 @@
     }])
 
     .controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
+         
+         //Sends http request for countries data
          countryData.getCountries().then(function(data) {
             $scope.countries = data;
             
          });
 
+         //Adds country code to url path
          $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
          };
@@ -149,21 +157,24 @@
         $scope.countryCode = $routeParams.country;
         $scope.country = countryData.search($scope.countryCode);
 
-        
+        //Gets country capital data
         capitalData.getCapital($scope.country.capital).then(function(cap) {
-            $scope.capital = cap;
-            
+            $scope.capital = cap;     
         });
 
+        //Gets neighboring countries
         neighborData.getNeighbors($scope.countryCode).then(function(neighbors) {
-            $scope.neighbors = neighbors;
-            
+            $scope.neighbors = neighbors; 
+            console.log($scope.neighbors);    
         });
 
+        //Constructs link for country image interpolation
         $scope.countryImg = 'http://www.geonames.org/img/country/250/' + $scope.countryCode + '.png';
 
+        //Changes country code to lower case for flag link
         $scope.countryCodeLower = $scope.countryCode.toLowerCase();
 
+        //Constructs link for respective country flag image
         $scope.flagUrl = 'http://www.geonames.org/flags/x/' + $scope.countryCodeLower + '.gif';
 
         $scope.getDetails = function(code) {

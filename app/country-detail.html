@@ -7,7 +7,7 @@
     <h3>Population of Capital: <span class="detail-txt">{{ capital.population | number }}</span></h3>
 
     <div id="neighbors-list">
-      <h3>Neighbors: </h3><span class="neighbors" ng-repeat="neighbor in neighbors" ng-click="getDetails(countryCode)">{{ neighbor.countryName }}, </span>
+      <h3>Neighbors: </h3><span class="neighbors" ng-repeat="neighbor in neighbors" ng-click="getDetails(neighbor.countryCode)">{{ neighbor.countryName }}, </span>
     </div>
 
     <div id="img-box">
