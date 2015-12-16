@@ -20,7 +20,7 @@
         });
     })
 
-    .factory('countryData', function($http, $q) {
+    .factory('countryData', function($http, $q, $location) {
         
         var countryArray = [];
         var defer = $q.defer();
@@ -176,9 +176,9 @@
         //Constructs link for respective country flag image
         $scope.flagUrl = 'http://www.geonames.org/flags/x/' + $scope.countryCodeLower + '.gif';
 
-        $scope.getDetails = function(code) {
+        //Adds country code to url path
+         $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
          };
-
     }]);
 })();

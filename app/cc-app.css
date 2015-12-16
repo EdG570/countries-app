@@ -165,3 +165,14 @@ td {
 .neighbors {
   cursor: pointer;
 }
+
+/*----------------------VIEW ANIMATIONS-----------------------*/
+
+.animate-view.ng-enter,
+.animate-view.ng-leave {
+  transition:1s linear all;
+}
+.animate-view.ng-enter { opacity:0; }
+.animate-view.ng-enter.ng-enter-active { opacity:1; }
+.animate-view.ng-leave { opacity:1; }
+.animate-view.ng-leave.ng-leave-active { opacity:0; }

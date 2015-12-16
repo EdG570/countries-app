@@ -1,10 +1,11 @@
-var gulp = require('gulp');
-var connect = require('gulp-connect');
-var minify = require('gulp-minify-html');
-var minifyCss = require('gulp-minify-css');
+var gulp = require('gulp'),
+    connect = require('gulp-connect'),
+    minify = require('gulp-minify-html'),
+    minifyCss = require('gulp-minify-css'),
+    livereload = require('gulp-livereload');
 
 gulp.task('connect', function() {
-  connect.server({root:'build'});
+  connect.server({root:'build', livereload:true});
 });
 
 gulp.task('copy-html-files', function() {
@@ -29,8 +30,14 @@ gulp.task('copy-images', function() {
     .pipe(gulp.dest('build/img'));
 });
 
+gulp.task('watch', function() {
+  livereload.listen();
+  gulp.watch('./app/*', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images']);
+});
+
+
 gulp.task('build', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images']);
 
 gulp.task('default', ['connect']);
 
-gulp.task('run', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images', 'connect']);
+gulp.task('run', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images', 'connect', 'watch']);
