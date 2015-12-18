@@ -1,0 +1,27 @@
+<table>
+  <tr>
+    <td class="col-title">Name</td>
+    <td class="col-title">Country Code</td>
+    <td class="col-title">Capital</td>
+    <td class="col-title">Area (km2)</td>
+    <td class="col-title">Population</td>
+    <td class="col-title">Continent</td>
+  </tr>
+
+  <tr class="country-info" ng-repeat="country in countries | limitTo:25:pageStart" ng-click="getDetails(country.countryCode)">
+    <td>{{ country.countryName }}</td>
+    <td>{{ country.countryCode }}</td>
+    <td>{{ country.capital }}</td>
+    <td>{{ country.areaInSqKm | number:0 }}</td>
+    <td>{{ country.population | number }}</td>
+    <td>{{ country.continentName }}</td>
+  </tr>
+</table>
+
+<div id="list-btn-box">
+  <button id="prev-btn" ng-click='prevPage()'>Prev</button>
+  <button ng-click='nextPage()'>Next</button>  
+</div>
+
+<a class="home-btn" href="#/">Home</a>
+

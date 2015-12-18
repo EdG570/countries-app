@@ -1,8 +1,204 @@
 .container {
-  width: 1140px;
+  width: 960px;
   margin: 0 auto;
+  padding: 2em 0 5em 0;
 }
 
 h1 {
   text-align: center;
+  font-weight: 300;
+  letter-spacing: 1px;
 }
+
+a, button {
+  text-decoration: none;
+  padding: 0.5em 1em;
+  background-color: orange;
+  border-radius: 5px;
+  text-align: center;
+  border: none;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+button {
+  background-color: lightgreen;
+  display: inline-block;
+}
+button:focus {
+  outline: none;
+}
+
+#content-box {
+  background: -webkit-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/background.jpg);
+  background: -o-linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/background.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(../img/background.jpg);
+  background-size: cover;
+  background-position: bottom;
+  background-repeat: none;
+}
+
+#header {
+  background-color: #222;
+  padding: 1.3em 0;
+}
+
+#header-title {
+  margin: 0;
+  color: #fff;
+}
+
+/*----------------HOME--------------------*/
+
+#home-info > h3 {
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+#home-info {
+  width: 30em;
+  margin: 0 auto;
+  padding: 5em 0 22em 0;
+}
+
+.browse-btn {
+  text-align: center;
+  display: block;
+  width: 8em;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+#browse-btn {
+  margin-top: 1em;
+}
+
+#browse-ctry-btn {
+
+}
+
+/*-----------------COUNTRIES LIST PAGE--------------------*/
+
+table {
+  border: 3px solid #333;
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 2em;
+  border-radius: 5px;
+}
+
+tr:nth-child(even) {
+  background-color: #ccc;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.country-info {
+  cursor: pointer;
+}
+
+td {
+  padding: 1em 0.5em;
+  border-right: 2px solid #333;
+  border-left: 2px solid #333;
+}
+
+.col-title {
+  font-weight: bold;
+  background-color: lightblue;
+  border-bottom: 3px solid #333;
+}
+
+.home-btn {
+  width: 5em;
+  display: block;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+/*-----------COUNTRY DETAILS PAGE------------*/
+
+#country-detail-box {
+  width: 34em;
+  margin: 0 auto;
+  margin-top: 2em;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 1em;
+  background: rgba(255, 255, 255, 1);
+}
+
+#neighbors-list > h3 {
+  display: inline;
+}
+
+.inline-btn {
+  display: inline-block !important;
+  margin: 0 auto;
+  color: #fff;
+  font-weight: 300;
+}
+
+#home-btn {
+  margin-right: 1em;
+}
+
+#flag-img,
+#country-img {
+  width: 15em;
+}
+
+#country-img {
+  margin-right: 3em;
+  max-height: 10em;
+}
+
+#img-box {
+  margin-top: 2em;
+}
+
+#btn-box {
+  width: 22em;
+  margin: 0 auto;
+  margin-top: 2em;
+}
+
+.detail-txt {
+  font-weight: 300;
+  color: #333;
+}
+
+#country-detail-box h3 {
+  font-weight: 500;
+  color: #740D1A;
+}
+
+.neighbors {
+  cursor: pointer;
+}
+
+#list-btn-box {
+  width: 10em;
+  margin: 0 auto;
+  margin-top: 1em;
+}
+
+#prev-btn {
+  margin-right: 1em;
+}
+
+/*----------------------VIEW ANIMATIONS-----------------------*/
+
+.animate-view.ng-enter,
+.animate-view.ng-leave {
+  transition:1s linear all;
+}
+.animate-view.ng-enter { opacity:0; }
+.animate-view.ng-enter.ng-enter-active { opacity:1; }
+.animate-view.ng-leave { opacity:1; }
+.animate-view.ng-leave.ng-leave-active { opacity:0; }
