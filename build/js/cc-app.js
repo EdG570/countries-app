@@ -52,7 +52,11 @@
           search: function(code) {
                var i = 0;
 
+<<<<<<< HEAD
                while(countryArray[i].countryCode !== code && i < countryArray.length) {
+=======
+               while(i < countryArray.length && countryArray[i].countryCode !== code) {
+>>>>>>> gh-pages
                   i = i + 1;
                }
 
@@ -143,9 +147,36 @@
          //Sends http request for countries data
          countryData.getCountries().then(function(data) {
             $scope.countries = data;
+<<<<<<< HEAD
             
          });
 
+=======
+            console.log($scope.countries);
+            
+         });
+
+         $scope.nextPage = function() {
+            if($scope.pageStart < 225) {
+              $scope.pageStart += 25;
+            }
+            else {
+              $scope.pageStart = $scope.pageStart;
+            }
+         };
+
+         $scope.prevPage = function() {
+            if($scope.pageStart < 25) {
+              $scope.pageStart = $scope.pageStart;
+            }
+            else if($scope.pageStart >= 25 && $scope.pageStart <= 225) {
+              $scope.pageStart -= 25;
+            }
+         };
+
+         $scope.pageStart = 0;
+
+>>>>>>> gh-pages
          //Adds country code to url path
          $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
@@ -155,6 +186,7 @@
     .controller('DetailCtrl', [ 'countryData', 'capitalData', 'neighborData', '$scope', '$routeParams', '$location', function(countryData, capitalData, neighborData, $scope, $routeParams, $location) {
         
         $scope.countryCode = $routeParams.country;
+<<<<<<< HEAD
         $scope.country = countryData.search($scope.countryCode);
 
         //Gets country capital data
@@ -180,5 +212,38 @@
          $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
          };
+=======
+
+        $scope.country = countryData.search($scope.countryCode);
+
+        if($scope.country === null) {
+          $location.path('/countries');
+        } 
+        else {
+
+          //Gets country capital data
+          capitalData.getCapital($scope.country.capital).then(function(cap) {
+              $scope.capital = cap;     
+          });
+
+          //Gets neighboring countries
+          neighborData.getNeighbors($scope.countryCode).then(function(neighbors) {
+              $scope.neighbors = neighbors;     
+          });
+
+          //Constructs link for country image interpolation
+          $scope.countryImg = 'http://www.geonames.org/img/country/250/' + $scope.countryCode + '.png';
+
+          //Changes country code to lower case for flag link
+          $scope.countryCodeLower = $scope.countryCode.toLowerCase();
+
+          //Constructs link for respective country flag image
+          $scope.flagUrl = 'http://www.geonames.org/flags/x/' + $scope.countryCodeLower + '.gif';
+
+          $scope.getDetails = function(code) {
+            $location.path('/countries/' + code);
+         };
+        }
+>>>>>>> gh-pages
     }]);
 })();

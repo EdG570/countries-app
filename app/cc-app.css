@@ -10,12 +10,24 @@ h1 {
   letter-spacing: 1px;
 }
 
-a {
+a, button {
   text-decoration: none;
   padding: 0.5em 1em;
   background-color: orange;
   border-radius: 5px;
   text-align: center;
+  border: none;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+button {
+  background-color: lightgreen;
+  display: inline-block;
+}
+button:focus {
+  outline: none;
 }
 
 #content-box {
@@ -114,7 +126,7 @@ td {
   border: 1px solid #333;
   border-radius: 5px;
   padding: 1em;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 1);
 }
 
 #neighbors-list > h3 {
@@ -147,7 +159,7 @@ td {
 }
 
 #btn-box {
-  width: 19em;
+  width: 22em;
   margin: 0 auto;
   margin-top: 2em;
 }
@@ -164,6 +176,16 @@ td {
 
 .neighbors {
   cursor: pointer;
+}
+
+#list-btn-box {
+  width: 10em;
+  margin: 0 auto;
+  margin-top: 1em;
+}
+
+#prev-btn {
+  margin-right: 1em;
 }
 
 /*----------------------VIEW ANIMATIONS-----------------------*/
