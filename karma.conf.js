@@ -15,11 +15,14 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      
-      './test/angular-mocks.js',
-      './test/cc-appSpec.js',
       './app/bower_components/angular/angular.js',
-      './app/cc-app.js'
+      './test/angular-mocks.js',
+      './app/cc-app.js',
+      './test/cc-appSpec.js',
+      './app/bower_components/angular-route/angular-route.js',
+      './app/bower_components/angular-animate/angular-animate.js'
+      
+      
     ],
 
 
@@ -69,5 +72,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultanous
     concurrency: Infinity
-  })
-}
+  });
+};

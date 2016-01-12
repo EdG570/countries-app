@@ -41,7 +41,9 @@
               })
               .then(function(results){
                   countryArray = results.data.geonames;
+                  console.log(results);
                   defer.resolve(countryArray);
+
               });
               
               return defer.promise; 
