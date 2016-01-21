@@ -4,15 +4,15 @@
     //defines routes and assigns controller for each route
     .config(function($routeProvider) {
         $routeProvider.when('/', {
-          templateUrl: '/countries-app/build/#/home.html',
+          templateUrl: 'home.html',
           controller: 'HomeCtrl as home'
         })
         .when('/countries', {
-          templateUrl: '/countries-list.html',
+          templateUrl: 'countries-list.html',
           controller: 'CountryCtrl as country'
         })
         .when('/countries/:country', {
-          templateUrl: '/country-detail.html',
+          templateUrl: 'country-detail.html',
           controller: 'DetailCtrl as detail'
         })
         .otherwise('/error', {
