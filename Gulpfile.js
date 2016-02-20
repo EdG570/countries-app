@@ -15,12 +15,12 @@ gulp.task('copy-html-files', function() {
 });
 
 gulp.task('copy-js-files', function() {
-  gulp.src(['./app/cc-app.js', './app/bower_components/angular/angular.min.js', './app/bower_components/angular-animate/angular-animate.min.js', './app/bower_components/angular-route/angular-route.min.js'])
+  gulp.src(['./app/js/cc-app.js', './app/bower_components/angular/angular.min.js', './app/bower_components/angular-animate/angular-animate.min.js', './app/bower_components/angular-route/angular-route.min.js'])
     .pipe(gulp.dest('build/js'));
 });
 
 gulp.task('minify-css', function() {
-  return gulp.src(['./app/*.css', './app/bower_components/normalize-css/normalize.css'])
+  return gulp.src(['./app/css/*.css', './app/bower_components/normalize-css/normalize.css'])
     .pipe(minifyCss({compatibility: 'ie8'}))
     .pipe(gulp.dest('build/css'));
 });
