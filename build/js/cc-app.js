@@ -1,94 +1,4 @@
-(function() {
-  angular.module('ccApp', ['ngRoute', 'ngAnimate'])
-
-    //defines routes and assigns controller for each route
-    .config(function($routeProvider) {
-        $routeProvider.when('/', {
-          templateUrl: 'home.html',
-          controller: 'HomeCtrl as home'
-        })
-        .when('/countries', {
-          templateUrl: 'countries-list.html',
-          controller: 'CountryCtrl as country'
-        })
-        .when('/countries/:country', {
-          templateUrl: 'country-detail.html',
-          controller: 'DetailCtrl as detail'
-        })
-        .otherwise('/error', {
-          template: '<h3>Error - Page Not Found</h3>'
-        });
-    })
-
-    .factory('countryData', function($http, $q, $location) {
-        
-        var countryArray = [];
-        var defer = $q.defer();
-
-        //http request for countries data
-        return {
-          getCountries: function() {
-            
-              var request = {
-                username: 'cole570',
-                type: 'json'
-              };
-
-              $http({
-                  url: 'http://api.geonames.org/countryInfo',
-                  method: 'GET',
-                  params: request
-              })
-              .then(function(results){
-                  countryArray = results.data.geonames;
-                  console.log(results);
-                  defer.resolve(countryArray);
-
-              });
-              
-              return defer.promise; 
-
-          },
-          
-          //searches country array for matching country code then returns the selected country
-          search: function(code) {
-               var i = 0;
-
-
-               while(i < countryArray.length && countryArray[i].countryCode !== code) {
-
-                  i = i + 1;
-               }
-
-               if(i < countryArray.length) {
-                  return countryArray[i];
-               } 
-
-               else {
-                  return null;
-               }
-          }
-        };
-    })
-  
-    .factory('neighborData', function($http, $q) {
-          var neighbors = [];
-          var d = $q.defer();
-
-        //http request for neighboring countries
-        return {
-
-          getNeighbors: function(code) {
-            
-              var request = {
-                username: 'cole570',
-                type: 'json',
-                country: code
-              };
-
-              $http({
-                  url: 'http://api.geonames.org/neighbours',
-                  method: 'GET',
+var ccApp=angular.module("ccApp",["ngRoute","ngAnimate"]);ccApp.config(function(t){t.when("/",{templateUrl:"home.html",controller:"HomeCtrl as home"}).when("/countries",{templateUrl:"countries-list.html",controller:"CountryCtrl as country"}).when("/countries/:country",{templateUrl:"country-detail.html",controller:"DetailCtrl as detail"}).otherwise("/error",{template:"<h3>Error - Page Not Found</h3>"})}),ccApp.factory("countryData",function(t,e,o){var r=[],n=e.defer();return{getCountries:function(){var e={username:"cole570",type:"json"};return t({url:"http://api.geonames.org/countryInfo",method:"GET",params:e}).then(function(t){r=t.data.geonames,console.log(t),n.resolve(r)}),n.promise},search:function(t){for(var e=0;e<r.length&&r[e].countryCode!==t;)e+=1;return e<r.length?r[e]:null}}}),ccApp.factory("neighborData",function(t,e){var o=[],r=e.defer();return{getNeighbors:function(e){var n={username:"cole570",type:"json",country:e};return t({url:"http://api.geonames.org/neighbours",method:"GET",params:n}).then(function(t){o=t.data.geonames,r.resolve(o)}),r.promise}}}),ccApp.factory("capitalData",function(t,e){var o={},r=e.defer();return{getCapital:function(e){var n={username:"cole570",q:e,name_equals:e,isNameRequired:!0,type:"JSON"};return t({url:"http://api.geonames.org/search",method:"GET",params:n}).then(function(t){o=t.data.geonames[0],r.resolve(o)}),r.promise}}}),ccApp.controller("HomeCtrl",[function(){}]),ccApp.controller("CountryCtrl",["countryData","$scope","$location",function(t,e,o){t.getCountries().then(function(t){e.countries=t,console.log(e.countries)}),e.pageStart=0,e.nextPage=function(){e.pageStart<225?e.pageStart+=25:e.pageStart=e.pageStart},e.prevPage=function(){e.pageStart<25?e.pageStart=e.pageStart:e.pageStart>=25&&e.pageStart<=225&&(e.pageStart-=25)},e.getDetails=function(t){o.path("/countries/"+t)}}]),ccApp.controller("DetailCtrl",["countryData","capitalData","neighborData","$scope","$routeParams","$location",function(t,e,o,r,n,a){r.countryCode=n.country,r.country=t.search(r.countryCode),null===r.country?a.path("/countries"):(e.getCapital(r.country.capital).then(function(t){r.capital=t}),o.getNeighbors(r.countryCode).then(function(t){r.neighbors=t}),r.countryImg="http://www.geonames.org/img/country/250/"+r.countryCode+".png",r.countryCodeLower=r.countryCode.toLowerCase(),r.flagUrl="http://www.geonames.org/flags/x/"+r.countryCodeLower+".gif",r.getDetails=function(t){a.path("/countries/"+t)})}]);               method: 'GET',
                   params: request
               })
               .then(function(results){
@@ -100,9 +10,9 @@
 
           }
         };
-    })
+    });
 
-    .factory('capitalData', function($http, $q) {
+    ccApp.factory('capitalData', function($http, $q) {
         
         var capObj = {};
         var d = $q.defer();
@@ -136,13 +46,13 @@
           }
           
         }; 
-    })
+    });
 
-    .controller('HomeCtrl', [ function() {
+    ccApp.controller('HomeCtrl', [ function() {
        
-    }])
+    }]);
 
-    .controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
+    ccApp.controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
          
          //Sends http request for countries data
          countryData.getCountries().then(function(data) {
@@ -151,6 +61,9 @@
             console.log($scope.countries);
             
          });
+
+         //Initializes var for managing number of and which results are displayed on page
+         $scope.pageStart = 0;
 
          $scope.nextPage = function() {
             if($scope.pageStart < 225) {
@@ -170,16 +83,13 @@
             }
          };
 
-         $scope.pageStart = 0;
-
-
          //Adds country code to url path
          $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
          };
-    }])
+    }]);
 
-    .controller('DetailCtrl', [ 'countryData', 'capitalData', 'neighborData', '$scope', '$routeParams', '$location', function(countryData, capitalData, neighborData, $scope, $routeParams, $location) {
+    ccApp.controller('DetailCtrl', [ 'countryData', 'capitalData', 'neighborData', '$scope', '$routeParams', '$location', function(countryData, capitalData, neighborData, $scope, $routeParams, $location) {
         
         $scope.countryCode = $routeParams.country;
 
@@ -215,4 +125,3 @@
         }
 
     }]);
-})();

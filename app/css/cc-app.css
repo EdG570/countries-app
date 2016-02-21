@@ -119,10 +119,19 @@ td {
 
 /*-----------COUNTRY DETAILS PAGE------------*/
 
+#detail-title {
+  color: lightblue;
+  background-color: #333;
+  width: 18em;
+  margin: 0 auto;
+  border-radius: 3px;
+  padding: 0.5em 0;
+}
+
 #country-detail-box {
   width: 34em;
   margin: 0 auto;
-  margin-top: 2em;
+  margin-top: 0em;
   border: 1px solid #333;
   border-radius: 5px;
   padding: 1em;

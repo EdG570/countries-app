@@ -1,8 +1,8 @@
-(function() {
-  angular.module('ccApp', ['ngRoute', 'ngAnimate'])
+
+  var ccApp = angular.module('ccApp', ['ngRoute', 'ngAnimate']);
 
     //defines routes and assigns controller for each route
-    .config(function($routeProvider) {
+    ccApp.config(function($routeProvider) {
         $routeProvider.when('/', {
           templateUrl: 'home.html',
           controller: 'HomeCtrl as home'
@@ -18,9 +18,9 @@
         .otherwise('/error', {
           template: '<h3>Error - Page Not Found</h3>'
         });
-    })
+    });
 
-    .factory('countryData', function($http, $q, $location) {
+    ccApp.factory('countryData', function($http, $q, $location) {
         
         var countryArray = [];
         var defer = $q.defer();
@@ -54,9 +54,7 @@
           search: function(code) {
                var i = 0;
 
-
                while(i < countryArray.length && countryArray[i].countryCode !== code) {
-
                   i = i + 1;
                }
 
@@ -69,9 +67,9 @@
                }
           }
         };
-    })
+    });
   
-    .factory('neighborData', function($http, $q) {
+    ccApp.factory('neighborData', function($http, $q) {
           var neighbors = [];
           var d = $q.defer();
 
@@ -100,9 +98,9 @@
 
           }
         };
-    })
+    });
 
-    .factory('capitalData', function($http, $q) {
+    ccApp.factory('capitalData', function($http, $q) {
         
         var capObj = {};
         var d = $q.defer();
@@ -136,13 +134,13 @@
           }
           
         }; 
-    })
+    });
 
-    .controller('HomeCtrl', [ function() {
+    ccApp.controller('HomeCtrl', [ function() {
        
-    }])
+    }]);
 
-    .controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
+    ccApp.controller('CountryCtrl', [ 'countryData', '$scope', '$location', function(countryData, $scope, $location) {
          
          //Sends http request for countries data
          countryData.getCountries().then(function(data) {
@@ -151,6 +149,9 @@
             console.log($scope.countries);
             
          });
+
+         //Initializes var for managing number of and which results are displayed on page
+         $scope.pageStart = 0;
 
          $scope.nextPage = function() {
             if($scope.pageStart < 225) {
@@ -170,16 +171,13 @@
             }
          };
 
-         $scope.pageStart = 0;
-
-
          //Adds country code to url path
          $scope.getDetails = function(code) {
             $location.path('/countries/' + code);
          };
-    }])
+    }]);
 
-    .controller('DetailCtrl', [ 'countryData', 'capitalData', 'neighborData', '$scope', '$routeParams', '$location', function(countryData, capitalData, neighborData, $scope, $routeParams, $location) {
+    ccApp.controller('DetailCtrl', [ 'countryData', 'capitalData', 'neighborData', '$scope', '$routeParams', '$location', function(countryData, capitalData, neighborData, $scope, $routeParams, $location) {
         
         $scope.countryCode = $routeParams.country;
 
@@ -215,4 +213,3 @@
         }
 
     }]);
-})();

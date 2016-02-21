@@ -2,7 +2,8 @@ var gulp = require('gulp'),
     connect = require('gulp-connect'),
     minify = require('gulp-minify-html'),
     minifyCss = require('gulp-minify-css'),
-    livereload = require('gulp-livereload');
+    livereload = require('gulp-livereload'),
+    uglify = require('gulp-uglify');
 
 gulp.task('connect', function() {
   connect.server({root:'build', livereload:true});
@@ -25,6 +26,12 @@ gulp.task('minify-css', function() {
     .pipe(gulp.dest('build/css'));
 });
 
+gulp.task('minify-js', function() {
+  return gulp.src('./app/js/cc-app.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('build/js'));
+});
+
 gulp.task('copy-images', function() {
   gulp.src('./app/img/*')
     .pipe(gulp.dest('build/img'));
@@ -32,12 +39,12 @@ gulp.task('copy-images', function() {
 
 gulp.task('watch', function() {
   livereload.listen();
-  gulp.watch('./app/*', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images']);
+  gulp.watch('./app/*', ['copy-html-files', 'copy-js-files', 'minify-css', 'minify-js', 'copy-images', ]);
 });
 
 
-gulp.task('build', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images']);
+gulp.task('build', ['copy-html-files', 'copy-js-files', 'minify-css', 'minify-js', 'copy-images']);
 
 gulp.task('default', ['connect']);
 
-gulp.task('run', ['copy-html-files', 'copy-js-files', 'minify-css', 'copy-images', 'connect', 'watch']);
+gulp.task('run', ['copy-html-files', 'copy-js-files', 'minify-css', 'minify-js', 'copy-images', 'connect', 'watch']);

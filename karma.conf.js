@@ -20,9 +20,7 @@ module.exports = function(config) {
       './app/js/cc-app.js',
       './test/cc-appSpec.js',
       './app/bower_components/angular-route/angular-route.js',
-      './app/bower_components/angular-animate/angular-animate.js'
-      
-      
+      './app/bower_components/angular-animate/angular-animate.js'  
     ],
 
 
