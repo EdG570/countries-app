@@ -55,10 +55,53 @@ var neighborsList = {
   ]
 };
 
+var mockCapital = {
+   
+      geonames:  [
+        {
+          "adminCode1": "04",
+          "adminName1": "Saint John",
+          "countryCode": "AG",
+          "countryId": "3576396",
+          "countryName": "Antigua and Barbuda",
+          "fcl": "P",
+          "fclName": "city, village,...",
+          "fcode": "PPLC",
+          "fcodeName": "capital of a political entity",
+          "geonameId": 3576022,
+          "lat": "17.11717",
+          "lng": "-61.84573",
+          "name": "St. John's",
+          "population": 24226,
+          "toponymName": "Saint John’s"
+        },
+        {
+          "adminCode1": "UT",
+          "adminName1": "Utah",
+          "countryCode": "US",
+          "countryId": "6252001",
+          "countryName": "United States",
+          "fcl": "T",
+          "fclName": "mountain,hill,rock,... ",
+          "fcode": "VAL",
+          "fcodeName": "valley",
+          "geonameId": 5784131,
+          "lat": "41.59105",
+          "lng": "-111.38493",
+          "name": "The Valley",
+          "population": 0,
+          "toponymName": "The Valley"
+        }
+      ]
+    
+}
+
+
+
 describe('Testing countries & capitals app', function() {
   beforeEach(module('ccApp'));
 
-    var scope, ctrl, httpBackend, rootScope;
+    var scope, ctrl, httpBackend, rootScope, location;
          
     beforeEach(inject(function($controller, $rootScope, $httpBackend, $location) {
         scope = $rootScope.$new();
@@ -89,11 +132,22 @@ describe('Testing countries & capitals app', function() {
 
 
     it('Should find specific country that matches country code in an array of countries', inject(function(countryData) {
-            var countryArray = countriesList;
+            var countries = [];
+            
+            httpBackend.expect('GET', 'http://api.geonames.org/countryInfo?type=json&username=cole570').respond(countriesList);
+            countryData.getCountries().then(function(response) {
+                countries = response;
+            });
+            rootScope.$digest();
+            httpBackend.flush();
 
-            expect(countryData.search("AD")).toBe(countryArray[0]);
-            expect(countryData.search("AE")).toBe(countryArray[1]);
-            expect(countryData.search("AA")).toBe(countryArray[-1]);         
+            var countryArray = [];
+            countryArray = countriesList.geonames;
+            
+
+            expect(countryData.search("AD").countryCode).toBe("AD");
+            expect(countryData.search("AE").countryCode).toBe("AE");
+            expect(countryData.search("AA")).toBe(null);         
     }));
   });
 
@@ -105,7 +159,6 @@ describe('Testing countries & capitals app', function() {
           httpBackend.expect('GET', 'http://api.geonames.org/neighbours?country=US&type=json&username=cole570').respond(neighborsList);
           neighborData.getNeighbors("US").then(function(response) {
             neighbors = response;
-            console.log(neighbors);
           });
           rootScope.$digest();
           httpBackend.flush();
@@ -118,23 +171,26 @@ describe('Testing countries & capitals app', function() {
 
   });
 
-  // describe('Testing capitalData factory', function() {
+  describe('Testing capitalData factory', function() {
 
-  //   it('should get data for country capital', inject(function(capitalData) {
-  //         var capital = "AD";
+    it('should get data for country capital', inject(function(capitalData) {
+          var capital = "AG";
+          var capitalResult;
           
-  //         httpBackend.expect('GET', 'http://api.geonames.org/search?q=US&type=json&username=cole570').respond(neighborsList);
-  //         neighborData.getNeighbors(capital).then(function(response) {
-  //           capital = response;
-  //           console.log(capital);
-  //         });
-  //         rootScope.$digest();
-  //         httpBackend.flush();
+          httpBackend.expect('GET', 'http://api.geonames.org/search?isNameRequired=true&name_equals=AG&q=AG&type=JSON&username=cole570').respond(mockCapital);
+          capitalData.getCapital(capital).then(function(response) {
+            capitalResult = response;
+          });
+          rootScope.$digest();
+          httpBackend.flush();
+
+          expect(capitalResult.countryCode).toBe("AG");
+          expect(capitalResult.name).toBe("St. John's");
 
           
-  //   }));
+    }));
 
-  // });
+  });
 
   describe('Testing country controller', function() {
 
@@ -185,27 +241,34 @@ describe('Testing countries & capitals app', function() {
 
     });
 
-    // it('should add the selected countrys country code to the location.path', function() {
+    it('should add the selected countrys country code to the location.path', inject(function(countryData) {
 
-    //     var mockCountry = {
-    //       geonames: [
-    //         {
-    //           countryCode: 'US',
-    //           countryName: 'United States'
-    //         }
-    //       ]
-    //     };
+        var mockCountry = {
+          geonames: [
+            {
+              countryCode: 'US',
+              countryName: 'United States'
+            }
+          ]
+        };
 
-    //     var code = mockCountry.geonames[0].countryCode;
+        var countries = [];
+            
+        httpBackend.expect('GET', 'http://api.geonames.org/countryInfo?type=json&username=cole570').respond(countriesList);
+        
 
-    //     location.path('/countries/');
-    //     rootScope.$apply();
-    //     expect(location.path()).toBe('/countries/');
+        var code = mockCountry.geonames[0].countryCode;
 
-    //     expect(scope.getDetails(code)).toBe('/countries/US');
+        location.path('/countries/');
+        rootScope.$apply();
+        httpBackend.flush();
+        expect(location.path()).toBe('/countries/');
+
+        scope.getDetails(code);
+        expect(location.path()).toBe('/countries/US');
 
 
-    // });
+    }));
 
   });
 

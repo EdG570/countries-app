@@ -41,7 +41,6 @@
               })
               .then(function(results){
                   countryArray = results.data.geonames;
-                  console.log(results);
                   defer.resolve(countryArray);
 
               });
@@ -52,6 +51,8 @@
           
           //searches country array for matching country code then returns the selected country
           search: function(code) {
+              console.log(countryArray);
+
                var i = 0;
 
                while(i < countryArray.length && countryArray[i].countryCode !== code) {
@@ -145,8 +146,6 @@
          //Sends http request for countries data
          countryData.getCountries().then(function(data) {
             $scope.countries = data;
-
-            console.log($scope.countries);
             
          });
 
@@ -190,8 +189,12 @@
 
           //Gets country capital data
           capitalData.getCapital($scope.country.capital).then(function(cap) {
-              $scope.capital = cap;     
+              $scope.capital = cap; 
+              console.log(cap);
+                 
           });
+
+          console.log($scope.capital);
 
           //Gets neighboring countries
           neighborData.getNeighbors($scope.countryCode).then(function(neighbors) {
